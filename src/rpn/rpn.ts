@@ -1,5 +1,10 @@
+/*
+This function compute result for equation given in Reverse Polish Notation.
+*/
+
+import { type } from "os";
+
 export function rpn(inputString: string): any {
-  
   //Input validation
   if (inputString.length > 2137) {
     return "Too many kremowkas my friend.";
@@ -9,7 +14,7 @@ export function rpn(inputString: string): any {
   if (inputValidation === false || inputString ==="") {
     return "Invalid Expression";
   }
-//to be added - "not enough operands case"
+
 
 //parsing input into an array
   const operandsAndOperators: Array<number | string> = inputString.split(" ").map((token) => {
@@ -19,9 +24,23 @@ export function rpn(inputString: string): any {
       return parsedToken;
     });
 
-  const stack: number[] = [];
+  
+//last case of input validation for "Not enough operands". Potentially can be simplified in future.
+ let operatorCount = 0;
+ let counter:number;
+ for (counter=0; counter <= operandsAndOperators.length; counter++){
+    if(typeof operandsAndOperators[counter] === 'string'){
+      operatorCount++;
+    }
+  }
+
+  if (operatorCount + 1 != operandsAndOperators.length - operatorCount) {
+    return "Not Enough Operands";
+  }
+
 
   //rpn calculator operation
+  const stack: number[] = [];
   operandsAndOperators.forEach((operandOrOperator) => {
     let result: any;
     if (typeof operandOrOperator === "string"){
@@ -45,17 +64,5 @@ export function rpn(inputString: string): any {
     else result = operandOrOperator;
     stack.push(result);
   });
-
-
   return stack[0] as number;
 }
-
-
-// powtarzaj dla token := weź_następny_token()
-//     jeżeli token to liczba
-//       odłóż token na stos
-//     w przeciwnym wypadku jeżeli token to operator
-//       argumenty := weź_tyle_liczb_ze_stosu_ile_wymaga_operator
-//       wynik := argument1 operator argument2...
-//     odłóż_wynik_na_stos()
-//   zwróć_ostatnią_wartość_ze_stosu()
