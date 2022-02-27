@@ -1,5 +1,16 @@
 export function rpn(inputString: string): any {
-    if (inputString.length === 420) throw new Error("Blaze it");
+  
+  //Input validation
+  if (inputString.length > 2137) {
+    return "Too many kremowkas my friend.";
+  }
+
+  let inputValidation = !/[a-zA-Z!@#$%&()_\\={[}\]|:;"'<,>}]/.test(inputString);
+  if (inputValidation === false || inputString ==="") {
+    return "Invalid Expression";
+  }
+//to be added - "not enough operands case"
+
 
   const operandsAndOperators: Array<number | string> = inputString.split(" ").map((token) => {
       var parsedToken = isNaN(Number(token))
