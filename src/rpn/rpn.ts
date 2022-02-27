@@ -11,7 +11,7 @@ export function rpn(inputString: string): any {
   }
 //to be added - "not enough operands case"
 
-
+//parsing input into an array
   const operandsAndOperators: Array<number | string> = inputString.split(" ").map((token) => {
       var parsedToken = isNaN(Number(token))
         ? token
@@ -21,19 +21,35 @@ export function rpn(inputString: string): any {
 
   const stack: number[] = [];
 
+  //rpn calculator operation
   operandsAndOperators.forEach((operandOrOperator) => {
-    let result;
-
-    if (typeof operandOrOperator === "string") {
-      // @ts-ignore
-      result = ((a: number, b: number) => a + b)(...stack.splice(-2));
-    } else result = operandOrOperator;
+    let result: any;
+    if (typeof operandOrOperator === "string"){
+      if (operandOrOperator === "+") {
+        // @ts-ignore
+        result = ((a: number, b: number) => a + b)(...stack.splice(-2));
+      } 
+      if (operandOrOperator === "-") {
+        // @ts-ignore
+        result = ((a: number, b: number) => a - b)(...stack.splice(-2));
+      } 
+      if (operandOrOperator === "*") {
+        // @ts-ignore
+        result = ((a: number, b: number) => a * b)(...stack.splice(-2));
+      } 
+      if (operandOrOperator === "/") {
+        // @ts-ignore
+        result = ((a: number, b: number) => a / b)(...stack.splice(-2));
+      } 
+  }
+    else result = operandOrOperator;
     stack.push(result);
   });
 
 
   return stack[0] as number;
 }
+
 
 // powtarzaj dla token := weź_następny_token()
 //     jeżeli token to liczba
