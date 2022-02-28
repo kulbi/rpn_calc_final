@@ -1,4 +1,4 @@
-import { rpn } from "./rpn";
+import { rpn } from "./rpn"; 
 describe("rpn()", () => {
   it("returs 4 when passed", () => {
     expect(rpn("1 3 +")).toBe(4);
