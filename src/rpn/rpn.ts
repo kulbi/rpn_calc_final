@@ -2,13 +2,9 @@
 This function compute result for equation given in Reverse Polish Notation.
 */
 
-//import { type } from "os";
 
 export function rpn(inputString: string) {
-  //Input validation -- todo: extract this as function function
-  //max length - declare const and refer below
-  
-  
+
   function inputCheck(inputString: string):string {
     let inputStatus :string;
     const inputLimit = 100;
@@ -16,76 +12,102 @@ export function rpn(inputString: string) {
       return inputStatus = "This is too long equation.";
     }
 
-    const regex = /[a-zA-Z!@#$%&()_\\={[}\]|:;"'<,>}]/;
-    let regexCheck = !regex.test(inputString);
+    const unexpectedInput = /[a-zA-Z!@#$%&()_\\={[}\]|:;"'<,>}]/;
+    let regexCheck = !unexpectedInput.test(inputString);
     if (regexCheck === false || inputString ==="") {
       return inputStatus = "Invalid Expression";
     }
     return(inputStatus = "Valid input"); 
-}
+  }
+
+
   let inputStatusResult = inputCheck(inputString);
+  if (inputStatusResult != "Valid input") return(inputStatusResult);
+  
 
-  //console.log(inputCheck(inputString));
 
-  if (inputStatusResult === "Valid input") {
-
-  //parsing input into an array --> parse to array function
+  //parsing input into an array --> 'parse to array' function
   //change token into parsedInput. give info in code review. token used when logging in (returns token)
-    
+
+
     const operandsAndOperators: Array<number | string> = inputString.split(" ").map((equation) => {
-        var parsedEquation = isNaN(Number(equation))
-          ? equation
-          : Number(equation);
-        return parsedEquation;
-      });
+          let parsedEquation = isNaN(Number(equation))
+            ? equation
+            : Number(equation);
+          return parsedEquation;
+        });
 
     
   //last case of input validation for "Not enough operands". Potentially can be simplified in future.
   //function - validate operands
+  console.log("here an array before loop " +operandsAndOperators);
+  function equationValidation(...operandsAndOperators: any): string { //<-------tu sie wypierdala
   let operatorCount = 0;
   let counter:number;
-  for (counter=0; counter <= operandsAndOperators.length; counter++){
+  let equationStatus :string;
+  console.log("here an array " +operandsAndOperators);
+  console.log("lenght of array: "+operandsAndOperators.length);
+  console.log;(operandsAndOperators[0]);
+  console.log("gowno");
+  console.log;("position 1 is: " +operandsAndOperators[1]);
+  for (counter=0; counter < operandsAndOperators.length; counter++){
       if(typeof operandsAndOperators[counter] === 'string'){
         operatorCount++;
+        //return equationStatus = "Valid equation";
+        console.log("operator position is" + operandsAndOperators[counter]);
+      }
+        console.log("operator count is" + operatorCount);
+      if (operatorCount + 1 != operandsAndOperators.length - operatorCount) {
+      return equationStatus = "Not Enough Operands";
       }
     }
+  return equationStatus = "Valid equation";
+}
 
-    if (operatorCount + 1 != operandsAndOperators.length - operatorCount) {
-      return "Not Enough Operands";
-    }
+let equationValidatioResult = equationValidation([...operandsAndOperators]);
+if (equationValidatioResult != "Valid equation") return(equationValidatioResult);
+ 
+  //let equationValidationResult = equationValidation(inputString);
+  //console.log(equationValidationResult);
+ // if (dupa === "Valid equation") {
+
+   // const inputLength = inputString.length; 
+
 
 
     //rpn calculator operation
     const stack: number[] = [];
-    operandsAndOperators.forEach((operandOrOperator) => {
+    console.log("stack is" +stack);
+    operandsAndOperators.forEach((operandsAndOperators) => {
       let result: any;
-      if (typeof operandOrOperator === "string"){ 
+      
+      if (typeof operandsAndOperators === "string"){ 
         //funkcja, która podstawia znak działania jako zmienną (nie powtarzaj results)
         //uzyj switch do obslugi tego
-        if (operandOrOperator === "+") {
+        let sign = operandsAndOperators;
+        if (operandsAndOperators === "+") {
           // @ts-ignore
           result = ((a: number, b: number) => a + b)(...stack.splice(-2));
         } 
-        if (operandOrOperator === "-") {
+        if (operandsAndOperators === "-") {
           // @ts-ignore
           result = ((a: number, b: number) => a - b)(...stack.splice(-2));
         } 
-        if (operandOrOperator === "*") {
+        if (operandsAndOperators === "*") {
           // @ts-ignore
           result = ((a: number, b: number) => a * b)(...stack.splice(-2));
         } 
-        if (operandOrOperator === "/") {
+        if (operandsAndOperators === "/") {
           // @ts-ignore
           result = ((a: number, b: number) => a / b)(...stack.splice(-2));
         } 
     }
-      else result = operandOrOperator;
+      else result = operandsAndOperators;
       stack.push(result);
     });
     return stack[0] as number;
-}
-else return inputStatusResult;
-}
 
-let test = rpn ("6 0 + $")
+  }
+
+let test = rpn ("6 3 +");
 console.log(test);

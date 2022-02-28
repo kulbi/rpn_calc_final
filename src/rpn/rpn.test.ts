@@ -15,10 +15,10 @@ describe("rpn()", () => {
   it("return 23 when passed", () => {
     expect(rpn("4 3 4 + 5 1 + 2 * + +")).toBe(23);
   });
-  it("return /Invalid Expression/ when passed", () => {
+  it("return /Invalid Expression/ when passed - empty input", () => {
     expect(rpn("")).toBe("Invalid Expression");
   });
-  it("return /Invalid Expression/ when passed", () => {
+  it("return /Invalid Expression/ when passed - incorrect input datatype", () => {
     expect(rpn("abc")).toBe("Invalid Expression");
   });
   it("return message /Not Enough Operands/ when passed", () => {
